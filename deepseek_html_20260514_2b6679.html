@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>个人名片 · 玻璃形态</title>
+  <!-- 引入 Font Awesome 6 图标库 -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', 'Inter', system-ui, -apple-system, sans-serif;
+      background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      position: relative;
+      overflow-x: hidden;
+    }
+
+    /* 动态光晕背景 */
+    body::before {
+      content: "";
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      background: radial-gradient(circle at 30% 40%, rgba(255, 255, 255, 0.08) 0%, transparent 40%),
+                  radial-gradient(circle at 80% 70%, rgba(120, 100, 255, 0.1) 0%, transparent 50%);
+      pointer-events: none;
+    }
+
+    /* 主卡片 - 极致玻璃质感 */
+    .glass-card {
+      position: relative;
+      width: 100%;
+      max-width: 520px;
+      background: rgba(255, 255, 255, 0.08);
+      backdrop-filter: blur(24px) saturate(180%);
+      -webkit-backdrop-filter: blur(24px) saturate(180%);
+      border-radius: 48px;
+      border: 1px solid rgba(255, 255, 255, 0.25);
+      box-shadow: 0 30px 60px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(255, 255, 255, 0.15) inset;
+      padding: 40px 30px 35px;
+      color: #fff;
+      transition: all 0.2s ease;
+      z-index: 2;
+    }
+
+    /* 头像区域 */
+    .avatar-section {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin-bottom: 25px;
+    }
+
+    .avatar-frame {
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #ffffff20, #ffffff05);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border: 2px solid rgba(255, 255, 255, 0.5);
+      box-shadow: 0 20px 30px -10px rgba(0,0,0,0.6);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 15px;
+      transition: transform 0.3s;
+    }
+
+    .avatar-frame:hover {
+      transform: scale(1.02);
+    }
+
+    .avatar-frame i {
+      font-size: 64px;
+      color: rgba(255, 255, 255, 0.9);
+      filter: drop-shadow(0 8px 12px black);
+    }
+
+    /* 姓名与头衔 */
+    .name {
+      font-size: 2.2rem;
+      font-weight: 600;
+      letter-spacing: 2px;
+      background: linear-gradient(to right, #fff, #e0d9ff);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 6px;
+      text-shadow: 0 4px 15px rgba(0,0,0,0.3);
+    }
+
+    .title {
+      font-size: 1rem;
+      font-weight: 400;
+      color: rgba(255, 255, 255, 0.75);
+      background: rgba(255, 255, 255, 0.1);
+      padding: 6px 20px;
+      border-radius: 30px;
+      backdrop-filter: blur(5px);
+      letter-spacing: 0.5px;
+      border: 1px solid rgba(255,255,255,0.2);
+    }
+
+    /* 个人简介/格言 */
+    .bio {
+      text-align: center;
+      margin: 28px 0 22px;
+      font-size: 1.05rem;
+      line-height: 1.7;
+      color: rgba(255, 255, 255, 0.9);
+      background: rgba(255, 255, 255, 0.06);
+      backdrop-filter: blur(8px);
+      padding: 18px 20px;
+      border-radius: 28px;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      word-break: break-word;
+      font-style: italic;
+    }
+
+    /* 社交链接/信息卡片 */
+    .info-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+      justify-content: center;
+      margin: 28px 0 22px;
+    }
+
+    .info-item {
+      background: rgba(255, 255, 255, 0.08);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-radius: 40px;
+      padding: 10px 20px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      border: 1px solid rgba(255, 255, 255, 0.25);
+      transition: 0.25s;
+      color: white;
+      font-size: 0.95rem;
+      flex: 1 1 auto;
+      justify-content: center;
+      box-shadow: 0 8px 18px rgba(0,0,0,0.2);
+    }
+
+    .info-item i {
+      font-size: 1.2rem;
+      color: #ffd966;
+      filter: drop-shadow(0 2px 5px black);
+    }
+
+    .info-item span {
+      font-weight: 400;
+      color: #f0f0f0;
+    }
+
+    /* 编辑按钮 */
+    .edit-btn {
+      background: rgba(255, 255, 255, 0.15);
+      backdrop-filter: blur(16px);
+      border: 1px solid rgba(255, 255, 255, 0.4);
+      color: white;
+      font-weight: 500;
+      font-size: 1rem;
+      padding: 14px 28px;
+      border-radius: 50px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      margin: 10px auto 0;
+      cursor: pointer;
+      transition: all 0.3s;
+      letter-spacing: 1px;
+      background: rgba(255, 255, 255, 0.2);
+      width: fit-content;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+    }
+
+    .edit-btn:hover {
+      background: rgba(255, 255, 255, 0.3);
+      border-color: rgba(255,255,255,0.7);
+      box-shadow: 0 15px 30px rgba(255,255,255,0.15);
+      transform: translateY(-2px);
+    }
+
+    .edit-btn i {
+      font-size: 0.95rem;
+    }
+
+    /* 模态框 (编辑资料) */
+    .modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.7);
+      backdrop-filter: blur(10px);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 100;
+      padding: 20px;
+    }
+
+    .modal {
+      background: rgba(20, 20, 40, 0.8);
+      backdrop-filter: blur(35px);
+      border: 1px solid rgba(255, 255, 255, 0.35);
+      border-radius: 40px;
+      max-width: 450px;
+      width: 100%;
+      padding: 30px 25px;
+      color: white;
+      box-shadow: 0 40px 70px rgba(0,0,0,0.8);
+    }
+
+    .modal h3 {
+      font-size: 1.6rem;
+      margin-bottom: 25px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: #fff;
+    }
+
+    .input-group {
+      margin-bottom: 20px;
+    }
+
+    .input-group label {
+      display: block;
+      font-size: 0.85rem;
+      margin-bottom: 6px;
+      color: #ccc;
+      letter-spacing: 0.5px;
+    }
+
+    .input-group input,
+    .input-group textarea {
+      width: 100%;
+      padding: 14px 18px;
+      border-radius: 30px;
+      border: 1px solid rgba(255,255,255,0.3);
+      background: rgba(255,255,255,0.1);
+      backdrop-filter: blur(8px);
+      color: white;
+      font-size: 1rem;
+      outline: none;
+      transition: 0.2s;
+      resize: vertical;
+      font-family: inherit;
+    }
+
+    .input-group textarea {
+      min-height: 80px;
+      border-radius: 25px;
+    }
+
+    .input-group input:focus,
+    .input-group textarea:focus {
+      border-color: #ffd966;
+      background: rgba(255,255,255,0.18);
+      box-shadow: 0 0 15px rgba(255,220,100,0.3);
+    }
+
+    .modal-actions {
+      display: flex;
+      gap: 15px;
+      justify-content: flex-end;
+      margin-top: 30px;
+    }
+
+    .btn {
+      padding: 12px 24px;
+      border-radius: 30px;
+      border: none;
+      font-weight: 600;
+      cursor: pointer;
+      backdrop-filter: blur(10px);
+      transition: 0.2s;
+      font-size: 0.95rem;
+    }
+
+    .btn-save {
+      background: rgba(255, 255, 255, 0.25);
+      border: 1px solid white;
+      color: white;
+    }
+
+    .btn-save:hover {
+      background: rgba(255,255,255,0.4);
+    }
+
+    .btn-close {
+      background: rgba(0,0,0,0.3);
+      border: 1px solid rgba(255,255,255,0.4);
+      color: white;
+    }
+
+    @media (max-width: 480px) {
+      .glass-card {
+        padding: 30px 20px;
+      }
+      .info-item {
+        padding: 8px 16px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- 个人卡片 -->
+  <div class="glass-card">
+    <div class="avatar-section">
+      <div class="avatar-frame">
+        <i class="fas fa-user-astronaut" id="avatarIcon"></i>
+      </div>
+      <div class="name" id="displayName">林一晨</div>
+      <div class="title" id="displayTitle">✨ 产品设计师 / 创意引导者</div>
+    </div>
+
+    <div class="bio" id="displayBio">
+      “设计是可见的思考。热爱将复杂转化为优雅的体验。”
+    </div>
+
+    <div class="info-grid">
+      <div class="info-item">
+        <i class="fas fa-map-marker-alt"></i>
+        <span id="displayLocation">杭州 · 中国</span>
+      </div>
+      <div class="info-item">
+        <i class="fas fa-envelope"></i>
+        <span id="displayEmail">linyichen@design.me</span>
+      </div>
+    </div>
+
+    <div class="edit-btn" id="openEditModalBtn">
+      <i class="fas fa-pen"></i> 编辑资料
+    </div>
+  </div>
+
+  <!-- 编辑模态框 -->
+  <div class="modal-overlay" id="editModal">
+    <div class="modal">
+      <h3><i class="fas fa-user-edit"></i> 编辑个人资料</h3>
+      
+      <div class="input-group">
+        <label>姓名</label>
+        <input type="text" id="inputName" placeholder="你的名字" value="林一晨">
+      </div>
+      <div class="input-group">
+        <label>头衔/职位</label>
+        <input type="text" id="inputTitle" placeholder="例如：设计师" value="✨ 产品设计师 / 创意引导者">
+      </div>
+      <div class="input-group">
+        <label>个人简介</label>
+        <textarea id="inputBio" placeholder="写一句格言或介绍">“设计是可见的思考。热爱将复杂转化为优雅的体验。”</textarea>
+      </div>
+      <div class="input-group">
+        <label>所在地</label>
+        <input type="text" id="inputLocation" placeholder="城市" value="杭州 · 中国">
+      </div>
+      <div class="input-group">
+        <label>电子邮箱</label>
+        <input type="email" id="inputEmail" placeholder="your@email.com" value="linyichen@design.me">
+      </div>
+
+      <div class="modal-actions">
+        <button class="btn btn-close" id="closeModalBtn">取消</button>
+        <button class="btn btn-save" id="saveChangesBtn"><i class="fas fa-check"></i> 保存</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    (function() {
+      // DOM 元素
+      const displayName = document.getElementById('displayName');
+      const displayTitle = document.getElementById('displayTitle');
+      const displayBio = document.getElementById('displayBio');
+      const displayLocation = document.getElementById('displayLocation');
+      const displayEmail = document.getElementById('displayEmail');
+      
+      // 输入框
+      const inputName = document.getElementById('inputName');
+      const inputTitle = document.getElementById('inputTitle');
+      const inputBio = document.getElementById('inputBio');
+      const inputLocation = document.getElementById('inputLocation');
+      const inputEmail = document.getElementById('inputEmail');
+      
+      // 模态框相关
+      const modalOverlay = document.getElementById('editModal');
+      const openBtn = document.getElementById('openEditModalBtn');
+      const closeBtn = document.getElementById('closeModalBtn');
+      const saveBtn = document.getElementById('saveChangesBtn');
+
+      // 默认数据 (用于初始化或重置，可选)
+      const defaultProfile = {
+        name: '林一晨',
+        title: '✨ 产品设计师 / 创意引导者',
+        bio: '“设计是可见的思考。热爱将复杂转化为优雅的体验。”',
+        location: '杭州 · 中国',
+        email: 'linyichen@design.me'
+      };
+
+      // 从 localStorage 加载已保存的资料，如果没有则使用默认值
+      function loadProfileFromStorage() {
+        const saved = localStorage.getItem('personal_website_profile');
+        if (saved) {
+          try {
+            const profile = JSON.parse(saved);
+            // 合并默认值以防某些字段缺失
+            return { ...defaultProfile, ...profile };
+          } catch (e) {
+            console.warn('解析存储数据失败，使用默认');
+            return { ...defaultProfile };
+          }
+        }
+        return { ...defaultProfile };
+      }
+
+      // 更新页面显示
+      function updateDisplay(profile) {
+        displayName.textContent = profile.name;
+        displayTitle.textContent = profile.title;
+        displayBio.textContent = profile.bio;
+        displayLocation.textContent = profile.location;
+        displayEmail.textContent = profile.email;
+      }
+
+      // 填充输入框
+      function fillInputs(profile) {
+        inputName.value = profile.name || '';
+        inputTitle.value = profile.title || '';
+        inputBio.value = profile.bio || '';
+        inputLocation.value = profile.location || '';
+        inputEmail.value = profile.email || '';
+      }
+
+      // 保存资料到 localStorage 并更新界面
+      function saveProfile() {
+        const profile = {
+          name: inputName.value.trim() || defaultProfile.name,
+          title: inputTitle.value.trim() || defaultProfile.title,
+          bio: inputBio.value.trim() || defaultProfile.bio,
+          location: inputLocation.value.trim() || defaultProfile.location,
+          email: inputEmail.value.trim() || defaultProfile.email,
+        };
+        
+        localStorage.setItem('personal_website_profile', JSON.stringify(profile));
+        updateDisplay(profile);
+        closeModal();
+      }
+
+      // 打开模态框并同步当前显示数据到输入框
+      function openModal() {
+        // 从当前显示内容或存储获取最新（保证一致性）
+        const currentProfile = loadProfileFromStorage();
+        fillInputs(currentProfile);
+        modalOverlay.style.display = 'flex';
+      }
+
+      function closeModal() {
+        modalOverlay.style.display = 'none';
+      }
+
+      // 事件绑定
+      openBtn.addEventListener('click', openModal);
+      
+      closeBtn.addEventListener('click', closeModal);
+      
+      // 点击模态框背景关闭
+      modalOverlay.addEventListener('click', function(e) {
+        if (e.target === modalOverlay) {
+          closeModal();
+        }
+      });
+
+      saveBtn.addEventListener('click', saveProfile);
+
+      // 键盘 ESC 关闭
+      window.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape' && modalOverlay.style.display === 'flex') {
+          closeModal();
+        }
+      });
+
+      // 初始化页面：加载存储资料并显示
+      const initialProfile = loadProfileFromStorage();
+      updateDisplay(initialProfile);
+      // 同时保证输入框也有初始值（当用户打开时能看到最新）
+      // 但不强制，openModal时会填充。
+      
+      // 额外：如果用户清空存储或第一次访问，一切正常。
+      console.log('✨ 个人网站已启动，点击“编辑资料”修改信息，数据自动保存在浏览器中。');
+    })();
+  </script>
+</body>
+</html>

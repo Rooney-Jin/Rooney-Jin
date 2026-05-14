@@ -1,471 +1,150 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-  <title>个人资料 · 苹果风格</title>
-  <!-- Font Awesome 6 图标库 -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-  <style>
-    /* 基础重置与苹果风格变量 */
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jin Youxuan | Dark Portfolio</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap');
+        
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: #020617; /* Slate-950 */
+            color: #f8fafc;
+        }
 
-    body {
-      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", "Segoe UI", Roboto, sans-serif;
-      background-color: #ffffff;
-      color: #1d1d1f;
-      line-height: 1.4;
-      -webkit-font-smoothing: antialiased;
-      -moz-osx-font-smoothing: grayscale;
-      min-height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 24px;
-    }
+        /* 深度模式下的 Bento 卡片 */
+        .bento-card {
+            background: #0f172a; /* Slate-900 */
+            border: 1px solid #1e293b; /* Slate-800 */
+            transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+        }
 
-    /* 主卡片：极简白底，微妙阴影，大圆角 */
-    .apple-card {
-      width: 100%;
-      max-width: 880px;
-      background: #ffffff;
-      border-radius: 36px;
-      padding: 60px 50px 55px;
-      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.04), 0 2px 8px rgba(0, 0, 0, 0.02);
-      transition: all 0.2s ease;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      text-align: center;
-      position: relative;
-      z-index: 2;
-      border: 1px solid rgba(0,0,0,0.04);
-    }
+        .bento-card:hover {
+            border-color: #334155; /* Slate-700 */
+            background: #1e293b;
+            transform: translateY(-4px);
+            box-shadow: 0 20px 40px -20px rgba(0,0,0,0.5);
+        }
 
-    /* 头像区域：简洁圆形，灰色调背景 */
-    .avatar-section {
-      margin-bottom: 32px;
-    }
+        .photo-frame {
+            overflow: hidden;
+            border-radius: 1.5rem;
+            background: #020617;
+        }
 
-    .avatar-circle {
-      width: 140px;
-      height: 140px;
-      border-radius: 50%;
-      background: #f2f2f6;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      margin: 0 auto;
-      transition: transform 0.3s ease;
-    }
-
-    .avatar-circle i {
-      font-size: 64px;
-      color: #86868b;
-      filter: drop-shadow(0 2px 6px rgba(0,0,0,0.03));
-    }
-
-    /* 姓名：苹果风格超大标题 */
-    .name {
-      font-size: 3.2rem;
-      font-weight: 600;
-      letter-spacing: -0.02em;
-      color: #1d1d1f;
-      margin-bottom: 8px;
-      line-height: 1.1;
-    }
-
-    /* 头衔/职位：灰色小字，中等粗细 */
-    .title {
-      font-size: 1.25rem;
-      font-weight: 400;
-      color: #86868b;
-      letter-spacing: -0.01em;
-      margin-bottom: 40px;
-    }
-
-    /* 简介段落：大宽度，舒适行距 */
-    .bio {
-      font-size: 1.35rem;
-      font-weight: 400;
-      color: #1d1d1f;
-      max-width: 580px;
-      margin: 0 auto 48px;
-      line-height: 1.5;
-      letter-spacing: -0.01em;
-      word-break: break-word;
-    }
-
-    /* 信息网格：极简分割 */
-    .info-grid {
-      display: flex;
-      flex-wrap: wrap;
-      align-items: center;
-      justify-content: center;
-      gap: 32px;
-      margin-bottom: 50px;
-      color: #6e6e73;
-      font-size: 1rem;
-      font-weight: 400;
-    }
-
-    .info-item {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      transition: color 0.2s;
-    }
-
-    .info-item i {
-      font-size: 1.15rem;
-      color: #86868b;
-    }
-
-    .info-item span {
-      color: #1d1d1f;
-    }
-
-    /* 分割线 */
-    .divider {
-      width: 60px;
-      height: 1px;
-      background: #d2d2d7;
-      margin: 0 auto 45px;
-    }
-
-    /* 编辑按钮：苹果风格边框按钮 */
-    .edit-btn {
-      background: transparent;
-      border: 1.5px solid #1d1d1f;
-      color: #1d1d1f;
-      font-weight: 500;
-      font-size: 1rem;
-      padding: 14px 32px;
-      border-radius: 980px;
-      display: inline-flex;
-      align-items: center;
-      gap: 10px;
-      cursor: pointer;
-      transition: all 0.2s ease;
-      letter-spacing: 0.02em;
-      background: #ffffff;
-      margin-top: 5px;
-    }
-
-    .edit-btn:hover {
-      background: #1d1d1f;
-      color: #ffffff;
-    }
-
-    .edit-btn i {
-      font-size: 0.9rem;
-    }
-
-    /* 模态框：苹果风格半透明模糊背景 */
-    .modal-overlay {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(0,0,0,0.45);
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
-      display: none;
-      align-items: center;
-      justify-content: center;
-      z-index: 1000;
-      padding: 20px;
-    }
-
-    .modal {
-      background: #ffffff;
-      border-radius: 28px;
-      max-width: 480px;
-      width: 100%;
-      padding: 38px 30px 32px;
-      box-shadow: 0 25px 60px rgba(0,0,0,0.25);
-      color: #1d1d1f;
-      text-align: left;
-    }
-
-    .modal h3 {
-      font-size: 1.7rem;
-      font-weight: 600;
-      margin-bottom: 28px;
-      letter-spacing: -0.02em;
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      color: #1d1d1f;
-    }
-
-    .input-group {
-      margin-bottom: 22px;
-    }
-
-    .input-group label {
-      display: block;
-      font-size: 0.85rem;
-      font-weight: 500;
-      margin-bottom: 6px;
-      color: #6e6e73;
-      letter-spacing: -0.01em;
-    }
-
-    .input-group input,
-    .input-group textarea {
-      width: 100%;
-      padding: 14px 18px;
-      border-radius: 18px;
-      border: 1.2px solid #d2d2d7;
-      background: #f5f5f7;
-      color: #1d1d1f;
-      font-size: 1rem;
-      outline: none;
-      transition: all 0.15s;
-      font-family: inherit;
-      resize: vertical;
-    }
-
-    .input-group textarea {
-      min-height: 85px;
-    }
-
-    .input-group input:focus,
-    .input-group textarea:focus {
-      border-color: #1d1d1f;
-      background: #ffffff;
-      box-shadow: 0 0 0 4px rgba(0,0,0,0.05);
-    }
-
-    .modal-actions {
-      display: flex;
-      gap: 16px;
-      justify-content: flex-end;
-      margin-top: 32px;
-    }
-
-    .btn {
-      padding: 12px 26px;
-      border-radius: 980px;
-      font-weight: 500;
-      font-size: 0.95rem;
-      cursor: pointer;
-      border: none;
-      transition: 0.2s;
-      letter-spacing: -0.01em;
-    }
-
-    .btn-save {
-      background: #1d1d1f;
-      color: white;
-      border: 1.5px solid #1d1d1f;
-    }
-
-    .btn-save:hover {
-      background: #000000;
-    }
-
-    .btn-close {
-      background: #f2f2f6;
-      color: #1d1d1f;
-      border: 1px solid transparent;
-    }
-
-    .btn-close:hover {
-      background: #e5e5ea;
-    }
-
-    /* 响应式调整 */
-    @media (max-width: 600px) {
-      .apple-card {
-        padding: 40px 24px 40px;
-        border-radius: 30px;
-      }
-      .name {
-        font-size: 2.5rem;
-      }
-      .bio {
-        font-size: 1.2rem;
-      }
-      .info-grid {
-        gap: 20px;
-        flex-direction: column;
-      }
-    }
-  </style>
+        /* 隐藏滚动条但保留功能 */
+        ::-webkit-scrollbar {
+            display: none;
+        }
+    </style>
 </head>
-<body>
-  <!-- 苹果风格主卡片 -->
-  <div class="apple-card">
-    <div class="avatar-section">
-      <div class="avatar-circle" id="avatarIconContainer">
-        <i class="fas fa-user" id="avatarIcon"></i>
-      </div>
-    </div>
+<body class="antialiased">
 
-    <div class="name" id="displayName">陈思远</div>
-    <div class="title" id="displayTitle">产品设计师</div>
+    <!-- 顶部导航 -->
+    <nav class="fixed top-0 w-full z-50 bg-[#020617]/80 backdrop-blur-md border-b border-white/5">
+        <div class="max-w-5xl mx-auto px-6 h-16 flex items-center justify-between">
+            <span class="font-bold tracking-tighter text-xl">JYX.</span>
+            <div class="flex gap-8 text-xs font-bold uppercase tracking-widest text-slate-500">
+                <a href="#" class="hover:text-white transition-colors">Works</a>
+                <a href="#" class="hover:text-white transition-colors">About</a>
+                <a href="mailto:jin@example.com" class="hover:text-white transition-colors">Contact</a>
+            </div>
+        </div>
+    </nav>
 
-    <div class="bio" id="displayBio">
-      相信简约的力量。创造直观、优雅的产品体验，让技术为人服务。
-    </div>
+    <main class="max-w-5xl mx-auto px-6 pt-32 pb-24">
+        
+        <!-- 核心介绍 -->
+        <header class="max-w-3xl mb-24">
+            <h1 class="text-5xl md:text-7xl font-bold tracking-tight mb-8 leading-[1.1]">
+                Jin Youxuan. <br>
+                <span class="text-slate-600">Building systems, <br>Chasing speed.</span>
+            </h1>
+            <p class="text-xl text-slate-400 leading-relaxed font-light">
+                Student in SHU, focusing on sleeping, playing and wasting time.
+            </p>
+        </header>
 
-    <div class="info-grid">
-      <div class="info-item">
-        <i class="fas fa-location-dot"></i>
-        <span id="displayLocation">北京 · 中国</span>
-      </div>
-      <div class="info-item">
-        <i class="fas fa-envelope"></i>
-        <span id="displayEmail">siyuan@apple.design</span>
-      </div>
-    </div>
+        <!-- Bento Grid 布局 -->
+        <div class="grid grid-cols-1 md:grid-cols-12 gap-6">
+            
+            <!-- 大项目展示位 -->
+            <div class="md:col-span-8 bento-card p-4 rounded-[2.5rem] group overflow-hidden">
+                <div class="photo-frame w-full h-[320px] mb-6">
+                    <!-- 替换为你最喜欢的骑行或工作照片 -->
+                    <img src="https://images.unsplash.com/photo-1517649763962-0c623066013b?q=80&w=1200" 
+                         class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-1000 opacity-80 group-hover:opacity-100">
+                </div>
+                <div class="px-4 pb-4">
+                    <div class="flex items-center gap-2 mb-3">
+                        <span class="px-2 py-0.5 border border-slate-700 text-[10px] font-bold rounded uppercase text-slate-500 tracking-wider">Course Project</span>
+                    </div>
+                    <h3 class="text-2xl font-bold italic">个人训练决策系统[cite: 1]</h3>
+                </div>
+            </div>
 
-    <div class="divider"></div>
+            <!-- 数据卡片：运动属性 -->
+            <div class="md:col-span-4 bento-card p-8 rounded-[2.5rem] flex flex-col justify-between border-blue-500/20 bg-gradient-to-br from-slate-900 to-blue-900/20">
+                <div class="w-12 h-12 rounded-2xl bg-blue-500/10 flex items-center justify-center border border-blue-500/20">
+                    <i data-lucide="zap" class="text-blue-400 w-6 h-6"></i>
+                </div>
+                <div>
+                    <p class="text-xs text-slate-500 uppercase tracking-widest font-bold mb-2">Weight Goal[cite: 1]</p>
+                    <p class="text-4xl font-bold tracking-tighter italic text-blue-400">50kg → 55kg</p>
+                </div>
+            </div>
 
-    <button class="edit-btn" id="openEditModalBtn">
-      <i class="fas fa-pencil"></i> 编辑资料
-    </button>
-  </div>
+            <!-- 列表区域：个人经历 -->
+            <div class="md:col-span-12 mt-12 space-y-4">
+                <h4 class="text-[10px] font-black uppercase tracking-[0.3em] text-slate-700 px-2">Path & Progress</h4>
+                
+                <!-- 经历项 1 -->
+                <div class="bento-card p-6 rounded-3xl flex items-center justify-between group">
+                    <div class="flex items-center gap-5">
+                        <div class="w-12 h-12 rounded-2xl bg-slate-800 flex items-center justify-center group-hover:bg-blue-600 transition-colors">
+                            <i data-lucide="code" class="w-5 h-5"></i>
+                        </div>
+                        <div>
+                            <p class="font-bold text-lg">AI Agent Frameworks[cite: 1]</p>
+                            <p class="text-sm text-slate-500">Local deployment & optimization[cite: 1]</p>
+                        </div>
+                    </div>
+                    <i data-lucide="arrow-up-right" class="w-5 h-5 text-slate-700 group-hover:text-white transition-colors"></i>
+                </div>
 
-  <!-- 编辑模态框 (极简设计) -->
-  <div class="modal-overlay" id="editModal">
-    <div class="modal">
-      <h3><i class="fas fa-gear"></i> 编辑信息</h3>
-      
-      <div class="input-group">
-        <label>姓名</label>
-        <input type="text" id="inputName" placeholder="你的姓名" value="陈思远">
-      </div>
-      <div class="input-group">
-        <label>头衔</label>
-        <input type="text" id="inputTitle" placeholder="例如：产品设计师" value="产品设计师">
-      </div>
-      <div class="input-group">
-        <label>简介</label>
-        <textarea id="inputBio" placeholder="简短介绍自己">相信简约的力量。创造直观、优雅的产品体验，让技术为人服务。</textarea>
-      </div>
-      <div class="input-group">
-        <label>所在地</label>
-        <input type="text" id="inputLocation" placeholder="城市" value="北京 · 中国">
-      </div>
-      <div class="input-group">
-        <label>电子邮箱</label>
-        <input type="email" id="inputEmail" placeholder="name@example.com" value="siyuan@apple.design">
-      </div>
+                <!-- 经历项 2 -->
+                <div class="bento-card p-6 rounded-3xl flex items-center justify-between group">
+                    <div class="flex items-center gap-5">
+                        <div class="w-12 h-12 rounded-2xl bg-slate-800 flex items-center justify-center group-hover:bg-orange-600 transition-colors">
+                            <i data-lucide="bike" class="w-5 h-5"></i>
+                        </div>
+                        <div>
+                            <p class="font-bold text-lg">National Cycling Race[cite: 1]</p>
+                            <p class="text-sm text-slate-500">Scheduled for September 2026[cite: 1]</p>
+                        </div>
+                    </div>
+                    <i data-lucide="arrow-up-right" class="w-5 h-5 text-slate-700 group-hover:text-white transition-colors"></i>
+                </div>
+            </div>
 
-      <div class="modal-actions">
-        <button class="btn btn-close" id="closeModalBtn">取消</button>
-        <button class="btn btn-save" id="saveChangesBtn">保存</button>
-      </div>
-    </div>
-  </div>
+        </div>
 
-  <script>
-    (function() {
-      // 界面元素
-      const displayName = document.getElementById('displayName');
-      const displayTitle = document.getElementById('displayTitle');
-      const displayBio = document.getElementById('displayBio');
-      const displayLocation = document.getElementById('displayLocation');
-      const displayEmail = document.getElementById('displayEmail');
+        <footer class="mt-32 pt-12 border-t border-slate-900 flex flex-col md:flex-row justify-between items-center gap-6">
+            <div class="text-[10px] font-bold text-slate-600 uppercase tracking-widest">
+                © 2026 Jin Youxuan / SHU[cite: 1]
+            </div>
+            <div class="flex gap-6">
+                <a href="#" class="text-slate-600 hover:text-white transition-colors text-[10px] font-bold uppercase tracking-widest">Github</a>
+                <a href="#" class="text-slate-600 hover:text-white transition-colors text-[10px] font-bold uppercase tracking-widest">Strava</a>
+            </div>
+        </footer>
+    </main>
 
-      const inputName = document.getElementById('inputName');
-      const inputTitle = document.getElementById('inputTitle');
-      const inputBio = document.getElementById('inputBio');
-      const inputLocation = document.getElementById('inputLocation');
-      const inputEmail = document.getElementById('inputEmail');
-
-      const modalOverlay = document.getElementById('editModal');
-      const openBtn = document.getElementById('openEditModalBtn');
-      const closeBtn = document.getElementById('closeModalBtn');
-      const saveBtn = document.getElementById('saveChangesBtn');
-
-      // 默认资料（苹果风格示例）
-      const defaultProfile = {
-        name: '陈思远',
-        title: '产品设计师',
-        bio: '相信简约的力量。创造直观、优雅的产品体验，让技术为人服务。',
-        location: '北京 · 中国',
-        email: 'siyuan@apple.design'
-      };
-
-      // 从本地存储加载
-      function loadProfile() {
-        const saved = localStorage.getItem('apple_style_profile');
-        if (saved) {
-          try {
-            return { ...defaultProfile, ...JSON.parse(saved) };
-          } catch (e) {
-            return { ...defaultProfile };
-          }
-        }
-        return { ...defaultProfile };
-      }
-
-      function updateDisplay(profile) {
-        displayName.textContent = profile.name;
-        displayTitle.textContent = profile.title;
-        displayBio.textContent = profile.bio;
-        displayLocation.textContent = profile.location;
-        displayEmail.textContent = profile.email;
-      }
-
-      function fillInputs(profile) {
-        inputName.value = profile.name || '';
-        inputTitle.value = profile.title || '';
-        inputBio.value = profile.bio || '';
-        inputLocation.value = profile.location || '';
-        inputEmail.value = profile.email || '';
-      }
-
-      function saveProfile() {
-        const newProfile = {
-          name: inputName.value.trim() || defaultProfile.name,
-          title: inputTitle.value.trim() || defaultProfile.title,
-          bio: inputBio.value.trim() || defaultProfile.bio,
-          location: inputLocation.value.trim() || defaultProfile.location,
-          email: inputEmail.value.trim() || defaultProfile.email,
-        };
-        localStorage.setItem('apple_style_profile', JSON.stringify(newProfile));
-        updateDisplay(newProfile);
-        closeModal();
-      }
-
-      function openModal() {
-        const current = loadProfile();
-        fillInputs(current);
-        modalOverlay.style.display = 'flex';
-      }
-
-      function closeModal() {
-        modalOverlay.style.display = 'none';
-      }
-
-      // 事件绑定
-      openBtn.addEventListener('click', openModal);
-      closeBtn.addEventListener('click', closeModal);
-      modalOverlay.addEventListener('click', function(e) {
-        if (e.target === modalOverlay) closeModal();
-      });
-      saveBtn.addEventListener('click', saveProfile);
-      
-      window.addEventListener('keydown', function(e) {
-        if (e.key === 'Escape' && modalOverlay.style.display === 'flex') {
-          closeModal();
-        }
-      });
-
-      // 初始化
-      const initialProfile = loadProfile();
-      updateDisplay(initialProfile);
-    })();
-  </script>
+    <script>
+        lucide.createIcons();
+    </script>
 </body>
 </html>

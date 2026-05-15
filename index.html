@@ -93,6 +93,8 @@
 
       border-bottom:
       1px solid rgba(255,255,255,0.08);
+
+      transition:0.4s;
     }
 
     .nav-content{
@@ -234,7 +236,7 @@
       font-size:14px;
       font-weight:500;
 
-      transition:0.3s;
+      transition:0.35s ease;
     }
 
     .btn-primary{
@@ -243,7 +245,7 @@
     }
 
     .btn-primary:hover{
-      transform:translateY(-3px);
+      transform:translateY(-4px);
     }
 
     .btn-secondary{
@@ -259,6 +261,7 @@
 
     .btn-secondary:hover{
       background:rgba(255,255,255,0.08);
+      transform:translateY(-4px);
     }
 
     /* =========================
@@ -398,12 +401,16 @@
 
       backdrop-filter:blur(12px);
 
-      transition:0.35s;
+      transition:
+      transform 0.5s ease,
+      background 0.5s ease;
     }
 
     .card:hover{
 
-      transform:translateY(-8px);
+      transform:
+      translateY(-12px)
+      scale(1.02);
 
       background:
       rgba(255,255,255,0.06);
@@ -456,12 +463,13 @@
 
       backdrop-filter:blur(12px);
 
-      transition:0.3s;
+      transition:0.35s ease;
     }
 
     .contact-item:hover{
 
-      transform:translateY(-6px);
+      transform:
+      translateY(-10px);
 
       background:
       rgba(255,255,255,0.06);
@@ -500,6 +508,30 @@
       1px solid rgba(255,255,255,0.08);
 
       background:#050505;
+    }
+
+    /* =========================
+       SCROLL REVEAL
+    ========================= */
+
+    .reveal{
+
+      opacity:0;
+
+      transform:
+      translateY(80px);
+
+      transition:
+      opacity 1.2s ease,
+      transform 1.2s ease;
+    }
+
+    .reveal.active{
+
+      opacity:1;
+
+      transform:
+      translateY(0);
     }
 
     /* =========================
@@ -571,7 +603,7 @@
 
   <section class="hero">
 
-    <div class="container">
+    <div class="container reveal">
 
       <div class="hero-content">
 
@@ -586,7 +618,7 @@
 
         <p class="hero-desc">
 
-          I am Rooney Jin, an undergraduate student in SHU focusing on
+          I am Rooney Jin, an undergraduate student focusing on
           wasting time.
 
         </p>
@@ -615,7 +647,7 @@
 
   <section id="about" class="full-bg about-bg">
 
-    <div class="container">
+    <div class="container reveal">
 
       <h2 class="section-title">
         About
@@ -647,7 +679,7 @@
 
   <section id="projects" class="full-bg hobbies-bg">
 
-    <div class="container">
+    <div class="container reveal">
 
       <h2 class="section-title">
         Hobbies
@@ -698,7 +730,7 @@
 
   <section id="thoughts" class="full-bg thoughts-bg">
 
-    <div class="container">
+    <div class="container reveal">
 
       <h2 class="section-title">
         Thoughts
@@ -724,7 +756,7 @@
 
   <section id="contact">
 
-    <div class="container">
+    <div class="container reveal">
 
       <h2 class="section-title">
         Contact
@@ -789,6 +821,8 @@
 
   <script>
 
+    // 鼠标光效
+
     const glow = document.querySelector('.cursor-glow');
 
     document.addEventListener('mousemove', (e) => {
@@ -797,6 +831,8 @@
       glow.style.top = e.clientY + 'px';
 
     });
+
+    // navbar 滚动效果
 
     const nav = document.querySelector('nav');
 
@@ -813,6 +849,35 @@
       }
 
     });
+
+    // scroll reveal
+
+    const reveals = document.querySelectorAll('.reveal');
+
+    function revealSections(){
+
+      reveals.forEach(section => {
+
+        const windowHeight = window.innerHeight;
+
+        const revealTop =
+        section.getBoundingClientRect().top;
+
+        const revealPoint = 120;
+
+        if(revealTop < windowHeight - revealPoint){
+
+          section.classList.add('active');
+
+        }
+
+      });
+
+    }
+
+    window.addEventListener('scroll', revealSections);
+
+    revealSections();
 
   </script>
 

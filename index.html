@@ -3,7 +3,7 @@
 
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 
   <title>Rooney Jin</title>
 
@@ -151,7 +151,7 @@
         rgba(0,0,0,0.58),
         rgba(0,0,0,0.82)
       ),
-      url('bg.jpg');
+      url('./assets/bg.jpg');
 
       background-size:cover;
       background-position:center;
@@ -276,7 +276,7 @@
 
     .section-title{
       font-size:48px;
-      margin-bottom:45px;
+      margin-bottom:35px;
     }
 
     .section-text{
@@ -286,6 +286,43 @@
       font-size:17px;
 
       color:rgba(255,255,255,0.72);
+    }
+
+    /* =========================
+       SECTION IMAGE
+    ========================= */
+
+    .section-image{
+
+      margin-top:42px;
+
+      border-radius:28px;
+
+      overflow:hidden;
+
+      border:
+      1px solid rgba(255,255,255,0.08);
+
+      background:
+      rgba(255,255,255,0.03);
+    }
+
+    .section-image img{
+
+      width:100%;
+
+      height:520px;
+
+      object-fit:cover;
+
+      display:block;
+
+      transition:0.5s;
+    }
+
+    .section-image:hover img{
+
+      transform:scale(1.03);
     }
 
     /* =========================
@@ -442,6 +479,10 @@
         grid-template-columns:1fr;
       }
 
+      .section-image img{
+        height:320px;
+      }
+
     }
 
   </style>
@@ -552,6 +593,10 @@
 
       </p>
 
+      <div class="section-image">
+        <img src="./assets/about.jpg" alt="about">
+      </div>
+
     </div>
 
   </section>
@@ -568,6 +613,10 @@
         Hobbies
       </h2>
 
+      <div class="section-image">
+        <img src="./assets/hobbies.jpg" alt="hobbies">
+      </div>
+
       <div class="grid">
 
         <div class="card">
@@ -575,9 +624,7 @@
           <h3>Endurance Cycling</h3>
 
           <p>
-
             W/kg is 4, speed up to 31 km/h for 4 hours.
-
           </p>
 
         </div>
@@ -587,10 +634,8 @@
           <h3>Video Games</h3>
 
           <p>
-
             Love to play independent games such as
             Hollow Knight, Cuphead and Disco Elysium.
-
           </p>
 
         </div>
@@ -600,9 +645,7 @@
           <h3>Sleeping</h3>
 
           <p>
-
             Professional campus sleeper.
-
           </p>
 
         </div>
@@ -625,7 +668,11 @@
         Thoughts
       </h2>
 
-      <p class="section-text">
+      <div class="section-image">
+        <img src="./assets/thoughts.jpg" alt="thoughts">
+      </div>
+
+      <p class="section-text" style="margin-top:42px;">
 
         An apple a day keeps doctors away.
 
@@ -710,8 +757,6 @@
 
   <script>
 
-    // 鼠标光效
-
     const glow = document.querySelector('.cursor-glow');
 
     document.addEventListener('mousemove', (e) => {
@@ -720,8 +765,6 @@
       glow.style.top = e.clientY + 'px';
 
     });
-
-    // navbar滚动变化
 
     const nav = document.querySelector('nav');
 
